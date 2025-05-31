@@ -1,0 +1,15 @@
+C:\Users\student\RiderProjects\Practice_part\Practice_part\bin\Debug\net8.0\Practice_part.exe
+C:\Users\student\RiderProjects\Practice_part\Practice_part\bin\Debug\net8.0\Practice_part.deps.json
+C:\Users\student\RiderProjects\Practice_part\Practice_part\bin\Debug\net8.0\Practice_part.runtimeconfig.json
+C:\Users\student\RiderProjects\Practice_part\Practice_part\bin\Debug\net8.0\Practice_part.dll
+C:\Users\student\RiderProjects\Practice_part\Practice_part\bin\Debug\net8.0\Practice_part.pdb
+C:\Users\student\RiderProjects\Practice_part\Practice_part\obj\Debug\net8.0\Practice_part.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\student\RiderProjects\Practice_part\Practice_part\obj\Debug\net8.0\Practice_part.AssemblyInfoInputs.cache
+C:\Users\student\RiderProjects\Practice_part\Practice_part\obj\Debug\net8.0\Practice_part.AssemblyInfo.cs
+C:\Users\student\RiderProjects\Practice_part\Practice_part\obj\Debug\net8.0\Practice_part.csproj.CoreCompileInputs.cache
+C:\Users\student\RiderProjects\Practice_part\Practice_part\obj\Debug\net8.0\Practice_part.sourcelink.json
+C:\Users\student\RiderProjects\Practice_part\Practice_part\obj\Debug\net8.0\Practice_part.dll
+C:\Users\student\RiderProjects\Practice_part\Practice_part\obj\Debug\net8.0\refint\Practice_part.dll
+C:\Users\student\RiderProjects\Practice_part\Practice_part\obj\Debug\net8.0\Practice_part.pdb
+C:\Users\student\RiderProjects\Practice_part\Practice_part\obj\Debug\net8.0\Practice_part.genruntimeconfig.cache
+C:\Users\student\RiderProjects\Practice_part\Practice_part\obj\Debug\net8.0\ref\Practice_part.dll
