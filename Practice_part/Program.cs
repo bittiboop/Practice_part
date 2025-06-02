@@ -1,265 +1,143 @@
 ﻿namespace Practice_part;
 
-class Matrix
+class Worker
 {
-    private int[,] matrix;
-    
-    public int Rows { get; private set; }
-    public int Cols { get; private set; }
-    
-    public int this[int i, int j]
+    private string SurnameName;
+    private string birthDate;
+    private int contactNumber;
+    private string email;
+    private string position;
+    private int description;
+    private decimal salary; // Заробітна плата
+
+    public decimal Salary
     {
-        get
-        {
-            if (i < 0 || i >= Rows || j < 0 || j >= Cols)
-                throw new IndexOutOfRangeException("Index out of range");
-            return matrix[i, j];
-        }
-        set
-        {
-            if (i < 0 || i >= Rows || j < 0 || j >= Cols)
-                throw new IndexOutOfRangeException("Index out of range");
-            matrix[i, j] = value;
-        }
+        get => salary;
+        set => salary = value;
     }
-    
-    public Matrix(int rows, int cols)
+
+    public void SetSurnameName(string surnameName)
     {
-        this.Rows = rows;
-        this.Cols = cols;
-        matrix = new int[rows, cols];
+        SurnameName = surnameName;
     }
-    
-    public void FillMatrix()
+    public string GetSurnameName()
     {
-        Random rand = new Random();
-        for (int i = 0; i < Rows; i++)
-        {
-            for (int j = 0; j < Cols; j++)
-            {
-                matrix[i, j] = rand.Next(1, 100);
-            }
-        }
+        return SurnameName;
     }
-    
-    public void PrintMatrix()
+    public void SetBirthDate(string birthDate)
     {
-        for (int i = 0; i < Rows; i++)
-        {
-            for (int j = 0; j < Cols; j++)
-            {
-                Console.Write(matrix[i, j] + " ");
-            }
-            Console.WriteLine();
-        }
+        this.birthDate = birthDate;
     }
-    
-    public int GetMax()
+    public string GetBirthDate()
     {
-        int max = matrix[0, 0];
-        for (int i = 0; i < Rows; i++)
-        {
-            for (int j = 0; j < Cols; j++)
-            {
-                if (matrix[i, j] > max)
-                {
-                    max = matrix[i, j];
-                }
-            }
-        }
-        return max;
+        return birthDate;
     }
-    
-    public int GetMin()
+    public void SetContactNumber(int contactNumber)
     {
-        int min = matrix[0, 0];
-        for (int i = 0; i < Rows; i++)
-        {
-            for (int j = 0; j < Cols; j++)
-            {
-                if (matrix[i, j] < min)
-                {
-                    min = matrix[i, j];
-                }
-            }
-        }
-        return min;
+        this.contactNumber = contactNumber;
     }
-    
-    public static Matrix operator +(Matrix a, Matrix b)
+    public int GetContactNumber()
     {
-        if (a.Rows != b.Rows || a.Cols != b.Cols)
-            throw new ArgumentException("Matrices must have the same dimensions for addition");
-            
-        Matrix result = new Matrix(a.Rows, a.Cols);
-        for (int i = 0; i < a.Rows; i++)
-        {
-            for (int j = 0; j < a.Cols; j++)
-            {
-                result[i, j] = a[i, j] + b[i, j];
-            }
-        }
-        return result;
+        return contactNumber;
     }
-    
-    public static Matrix operator -(Matrix a, Matrix b)
+    public void SetEmail(string email)
     {
-        if (a.Rows != b.Rows || a.Cols != b.Cols)
-            throw new ArgumentException("Matrices must have the same dimensions for subtraction");
-            
-        Matrix result = new Matrix(a.Rows, a.Cols);
-        for (int i = 0; i < a.Rows; i++)
-        {
-            for (int j = 0; j < a.Cols; j++)
-            {
-                result[i, j] = a[i, j] - b[i, j];
-            }
-        }
-        return result;
+        this.email = email;
     }
-    
-    public static Matrix operator *(Matrix a, Matrix b)
+    public string GetEmail()
     {
-        if (a.Cols != b.Rows)
-            throw new ArgumentException("Number of columns in first matrix must equal number of rows in second matrix");
-            
-        Matrix result = new Matrix(a.Rows, b.Cols);
-        for (int i = 0; i < a.Rows; i++)
-        {
-            for (int j = 0; j < b.Cols; j++)
-            {
-                for (int k = 0; k < a.Cols; k++)
-                {
-                    result[i, j] += a[i, k] * b[k, j];
-                }
-            }
-        }
-        return result;
+        return email;
     }
-    
-    public static Matrix operator *(Matrix a, int scalar)
+    public void SetPosition(string position)
     {
-        Matrix result = new Matrix(a.Rows, a.Cols);
-        for (int i = 0; i < a.Rows; i++)
-        {
-            for (int j = 0; j < a.Cols; j++)
-            {
-                result[i, j] = a[i, j] * scalar;
-            }
-        }
-        return result;
+        this.position = position;
     }
-    
-    public static Matrix operator *(int scalar, Matrix a)
+    public string GetPosition()
     {
-        return a * scalar;
+        return position;
     }
-    
-    public static bool operator ==(Matrix a, Matrix b)
+    public void SetDescription(int description)
     {
-        if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
-            return ReferenceEquals(a, b);
-            
-        if (a.Rows != b.Rows || a.Cols != b.Cols)
-            return false;
-            
-        for (int i = 0; i < a.Rows; i++)
-        {
-            for (int j = 0; j < a.Cols; j++)
-            {
-                if (a[i, j] != b[i, j])
-                    return false;
-            }
-        }
-        return true;
+        this.description = description;
     }
-    
-    public static bool operator !=(Matrix a, Matrix b)
+    public int GetDescription()
     {
-        return !(a == b);
+        return description;
     }
-    
+
+    // Перевантаження операторів
+    public static Worker operator +(Worker worker, decimal amount)
+    {
+        worker.Salary += amount;
+        return worker;
+    }
+
+    public static Worker operator -(Worker worker, decimal amount)
+    {
+        worker.Salary -= amount;
+        return worker;
+    }
+
+    public static bool operator ==(Worker worker1, Worker worker2)
+    {
+        return worker1.Salary == worker2.Salary;
+    }
+
+    public static bool operator !=(Worker worker1, Worker worker2)
+    {
+        return worker1.Salary != worker2.Salary;
+    }
+
+    public static bool operator <(Worker worker1, Worker worker2)
+    {
+        return worker1.Salary < worker2.Salary;
+    }
+
+    public static bool operator >(Worker worker1, Worker worker2)
+    {
+        return worker1.Salary > worker2.Salary;
+    }
+
     public override bool Equals(object obj)
     {
-        if (obj == null || GetType() != obj.GetType())
-            return false;
-            
-        Matrix other = (Matrix)obj;
-        return this == other;
+        if (obj is Worker otherWorker)
+        {
+            return this.Salary == otherWorker.Salary;
+        }
+        return false;
     }
-    
+
     public override int GetHashCode()
     {
-        int hash = 17;
-        hash = hash * 23 + Rows.GetHashCode();
-        hash = hash * 23 + Cols.GetHashCode();
-        
-        for (int i = 0; i < Rows; i++)
-        {
-            for (int j = 0; j < Cols; j++)
-            {
-                hash = hash * 23 + matrix[i, j].GetHashCode();
-            }
-        }
-        
-        return hash;
+        return Salary.GetHashCode();
     }
 }
 class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Enter number of rows in the matrix:");
-        int rows = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("Enter number of columns in the matrix:");
-        int cols = Convert.ToInt32(Console.ReadLine());
-        Matrix matrix = new Matrix(rows, cols);
-        matrix.FillMatrix();
-        Console.WriteLine("Matrix:");
-        matrix.PrintMatrix();
-        Console.WriteLine($"Maximum value in the matrix: {matrix.GetMax()}");
-        Console.WriteLine($"Minimum value in the matrix: {matrix.GetMin()}");
-        Console.WriteLine("Enter a scalar value to multiply the matrix:");
-        int scalar = Convert.ToInt32(Console.ReadLine());
-        Matrix scaledMatrix = matrix * scalar;
-        Console.WriteLine($"Matrix after multiplying by {scalar}:");
-        scaledMatrix.PrintMatrix();
-        Console.WriteLine("Enter another matrix to add:");
-        Matrix anotherMatrix = new Matrix(rows, cols);
-        anotherMatrix.FillMatrix();
-        Console.WriteLine("Another Matrix:");
-        anotherMatrix.PrintMatrix();
-        Matrix sumMatrix = matrix + anotherMatrix;
-        Console.WriteLine("Sum of the two matrices:");
-        sumMatrix.PrintMatrix();
-        Matrix diffMatrix = matrix - anotherMatrix;
-        Console.WriteLine("Difference of the two matrices:");
-        diffMatrix.PrintMatrix();
-        Console.WriteLine("Enter another matrix to multiply:");
-        Matrix multiplyMatrix = new Matrix(cols, rows); 
-        multiplyMatrix.FillMatrix();
-        Console.WriteLine("Matrix to multiply:");
-        multiplyMatrix.PrintMatrix();
-        Matrix productMatrix = matrix * multiplyMatrix;
-        Console.WriteLine("Product of the two matrices:");
-        productMatrix.PrintMatrix();
-        Console.WriteLine("Checking equality of the original and another matrix:");
-        if (matrix == anotherMatrix)
-        {
-            Console.WriteLine("The matrices are equal.");
-        }
-        else
-        {
-            Console.WriteLine("The matrices are not equal.");
-        }
-        Console.WriteLine("Checking equality of the original matrix with itself:");
-        if (matrix == matrix)
-        {
-            Console.WriteLine("The matrices are equal.");
-        }
-        else
-        {
-            Console.WriteLine("The matrices are not equal.");
-        }
+        Worker worker = new Worker();
+        Console.WriteLine("Enter surname and name:");
+        worker.SetSurnameName(Console.ReadLine());
+        Console.WriteLine("Enter birth date:");
+        worker.SetBirthDate(Console.ReadLine());
+        Console.WriteLine("Enter contact number:");
+        worker.SetContactNumber(Convert.ToInt32(Console.ReadLine()));
+        Console.WriteLine("Enter email:");
+        worker.SetEmail(Console.ReadLine());
+        Console.WriteLine("Enter position:");
+        worker.SetPosition(Console.ReadLine());
+        Console.WriteLine("Enter description:");
+        worker.SetDescription(Convert.ToInt32(Console.ReadLine()));
+        Console.WriteLine("Enter salary:");
+        worker.Salary = Convert.ToDecimal(Console.ReadLine());
+        
+        Console.WriteLine($"Surname and Name: {worker.GetSurnameName()}");
+        Console.WriteLine($"Birth Date: {worker.GetBirthDate()}");
+        Console.WriteLine($"Contact Number: {worker.GetContactNumber()}");
+        Console.WriteLine($"Email: {worker.GetEmail()}");
+        Console.WriteLine($"Position: {worker.GetPosition()}");
+        Console.WriteLine($"Description: {worker.GetDescription()}");
+        Console.WriteLine($"Salary: {worker.Salary}");
     }
 }
