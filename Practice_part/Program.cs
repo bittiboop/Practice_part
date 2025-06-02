@@ -1,96 +1,91 @@
 ﻿namespace Practice_part;
 
-class City
+class CreditCard
 {
-    private string name;
-    private string country;
-    private int population;
-    private int phoneCode;
-    private string nameArea;
-
-    public int Population
+    public string CardNumber { get; private set; }
+    public string OwnerName { get; private set; }
+    public string CVC { get; private set; }
+    public DateTime ExpirationDate { get; private set; }
+    
+    private decimal balance;
+    public decimal Balance
     {
-        get => population;
-        set => population = value;
+        get => balance;
+        private set => balance = value;
     }
 
-    public void SetName(string name)
+    public CreditCard(string cardNumber, string ownerName, string cvc, DateTime expirationDate, decimal initialBalance = 0)
     {
-        this.name = name;
-    }
-    public string GetName()
-    {
-        return name;
-    }
-    public void SetCountry(string country)
-    {
-        this.country = country;
-    }
-    public string GetCountry()
-    {
-        return country;
-    }
-    public void SetPhoneCode(int phoneCode)
-    {
-        this.phoneCode = phoneCode;
-    }
-    public int GetPhoneCode()
-    {
-        return phoneCode;
-    }
-    public void SetNameArea(string nameArea)
-    {
-        this.nameArea = nameArea;
-    }
-    public string GetNameArea()
-    {
-        return nameArea;
+        if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length != 16)
+            throw new ArgumentException("Invalid card number.");
+        if (string.IsNullOrWhiteSpace(ownerName))
+            throw new ArgumentException("Owner name cannot be empty.");
+        if (string.IsNullOrWhiteSpace(cvc) || cvc.Length != 3)
+            throw new ArgumentException("Invalid CVC.");
+        if (expirationDate <= DateTime.Now)
+            throw new ArgumentException("Expiration date must be in the future.");
+        if (initialBalance < 0)
+            throw new ArgumentException("Initial balance cannot be negative.");
+
+        CardNumber = cardNumber;
+        OwnerName = ownerName;
+        CVC = cvc;
+        ExpirationDate = expirationDate;
+        Balance = initialBalance;
     }
 
-    public static City operator +(City city, int amount)
+    public static CreditCard operator +(CreditCard card, decimal amount)
     {
-        city.Population += amount;
-        return city;
+        card.Balance += amount;
+        return card;
     }
 
-    public static City operator -(City city, int amount)
+    public static CreditCard operator -(CreditCard card, decimal amount)
     {
-        city.Population -= amount;
-        return city;
+        if (card.Balance < amount)
+            throw new InvalidOperationException("Insufficient funds.");
+        card.Balance -= amount;
+        return card;
     }
 
-    public static bool operator ==(City city1, City city2)
+    public static bool operator ==(CreditCard card1, CreditCard card2)
     {
-        return city1.Population == city2.Population;
+        if (ReferenceEquals(card1, null) || ReferenceEquals(card2, null))
+            return ReferenceEquals(card1, card2);
+        return card1.CVC == card2.CVC;
     }
 
-    public static bool operator !=(City city1, City city2)
+    public static bool operator !=(CreditCard card1, CreditCard card2)
     {
-        return city1.Population != city2.Population;
+        return !(card1 == card2);
     }
 
-    public static bool operator <(City city1, City city2)
+    public static bool operator <(CreditCard card1, CreditCard card2)
     {
-        return city1.Population < city2.Population;
+        if (ReferenceEquals(card1, null) || ReferenceEquals(card2, null))
+            throw new ArgumentNullException("Cannot compare null credit cards.");
+        return card1.Balance < card2.Balance;
     }
 
-    public static bool operator >(City city1, City city2)
+    public static bool operator >(CreditCard card1, CreditCard card2)
     {
-        return city1.Population > city2.Population;
+        if (ReferenceEquals(card1, null) || ReferenceEquals(card2, null))
+            throw new ArgumentNullException("Cannot compare null credit cards.");
+        return card1.Balance > card2.Balance;
     }
 
     public override bool Equals(object obj)
     {
-        if (obj is City otherCity)
+        if (obj is CreditCard otherCard)
         {
-            return this.Population == otherCity.Population;
+            return this.CVC == otherCard.CVC;
         }
         return false;
     }
 
     public override int GetHashCode()
     {
-        return Population.GetHashCode();
+        return CVC.GetHashCode();
     }
 }
 
@@ -98,29 +93,26 @@ class Program
 {
     static void Main(string[] args)
     {
-        City city1 = new City();
-        city1.SetName("New York");
-        city1.SetCountry("USA");
-        city1.SetPhoneCode(212);
-        city1.SetNameArea("Manhattan");
-        city1.Population = 8000000;
+        try
+        {
+            CreditCard card1 = new CreditCard("1234567812345678", "Alice", "123", DateTime.Now.AddYears(1), 1000);
+            CreditCard card2 = new CreditCard("8765432187654321", "Bob", "456", DateTime.Now.AddYears(1), 500);
 
-        City city2 = new City();
-        city2.SetName("Los Angeles");
-        city2.SetCountry("USA");
-        city2.SetPhoneCode(213);
-        city2.SetNameArea("Downtown");
-        city2.Population = 4000000;
+            Console.WriteLine($"Card 1 Balance: {card1.Balance}");
+            Console.WriteLine($"Card 2 Balance: {card2.Balance}");
 
-        Console.WriteLine($"{city1.GetName()} in {city1.GetCountry()} has a population of {city1.Population}");
-        Console.WriteLine($"{city2.GetName()} in {city2.GetCountry()} has a population of {city2.Population}");
+            card1 += 200;
+            Console.WriteLine($"Card 1 Balance after deposit: {card1.Balance}");
 
-        if (city1 > city2)
-            Console.WriteLine($"{city1.GetName()} has a larger population than {city2.GetName()}");
-        else
-            Console.WriteLine($"{city2.GetName()} has a larger population than {city1.GetName()}");
+            card2 -= 100;
+            Console.WriteLine($"Card 2 Balance after withdrawal: {card2.Balance}");
 
-        city1 += 100000; 
-        Console.WriteLine($"After increase, {city1.GetName()} has a population of {city1.Population}");
+            Console.WriteLine($"Are cards equal? {card1 == card2}");
+            Console.WriteLine($"Is Card 1 balance greater than Card 2? {card1 > card2}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error occured in creating credit card: {ex.Message}");
+        }
     }
 }
