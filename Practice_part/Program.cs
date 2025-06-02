@@ -1,143 +1,126 @@
 ﻿namespace Practice_part;
 
-class Worker
+class City
 {
-    private string SurnameName;
-    private string birthDate;
-    private int contactNumber;
-    private string email;
-    private string position;
-    private int description;
-    private decimal salary; // Заробітна плата
+    private string name;
+    private string country;
+    private int population;
+    private int phoneCode;
+    private string nameArea;
 
-    public decimal Salary
+    public int Population
     {
-        get => salary;
-        set => salary = value;
+        get => population;
+        set => population = value;
     }
 
-    public void SetSurnameName(string surnameName)
+    public void SetName(string name)
     {
-        SurnameName = surnameName;
+        this.name = name;
     }
-    public string GetSurnameName()
+    public string GetName()
     {
-        return SurnameName;
+        return name;
     }
-    public void SetBirthDate(string birthDate)
+    public void SetCountry(string country)
     {
-        this.birthDate = birthDate;
+        this.country = country;
     }
-    public string GetBirthDate()
+    public string GetCountry()
     {
-        return birthDate;
+        return country;
     }
-    public void SetContactNumber(int contactNumber)
+    public void SetPhoneCode(int phoneCode)
     {
-        this.contactNumber = contactNumber;
+        this.phoneCode = phoneCode;
     }
-    public int GetContactNumber()
+    public int GetPhoneCode()
     {
-        return contactNumber;
+        return phoneCode;
     }
-    public void SetEmail(string email)
+    public void SetNameArea(string nameArea)
     {
-        this.email = email;
+        this.nameArea = nameArea;
     }
-    public string GetEmail()
+    public string GetNameArea()
     {
-        return email;
-    }
-    public void SetPosition(string position)
-    {
-        this.position = position;
-    }
-    public string GetPosition()
-    {
-        return position;
-    }
-    public void SetDescription(int description)
-    {
-        this.description = description;
-    }
-    public int GetDescription()
-    {
-        return description;
+        return nameArea;
     }
 
-    // Перевантаження операторів
-    public static Worker operator +(Worker worker, decimal amount)
+    public static City operator +(City city, int amount)
     {
-        worker.Salary += amount;
-        return worker;
+        city.Population += amount;
+        return city;
     }
 
-    public static Worker operator -(Worker worker, decimal amount)
+    public static City operator -(City city, int amount)
     {
-        worker.Salary -= amount;
-        return worker;
+        city.Population -= amount;
+        return city;
     }
 
-    public static bool operator ==(Worker worker1, Worker worker2)
+    public static bool operator ==(City city1, City city2)
     {
-        return worker1.Salary == worker2.Salary;
+        return city1.Population == city2.Population;
     }
 
-    public static bool operator !=(Worker worker1, Worker worker2)
+    public static bool operator !=(City city1, City city2)
     {
-        return worker1.Salary != worker2.Salary;
+        return city1.Population != city2.Population;
     }
 
-    public static bool operator <(Worker worker1, Worker worker2)
+    public static bool operator <(City city1, City city2)
     {
-        return worker1.Salary < worker2.Salary;
+        return city1.Population < city2.Population;
     }
 
-    public static bool operator >(Worker worker1, Worker worker2)
+    public static bool operator >(City city1, City city2)
     {
-        return worker1.Salary > worker2.Salary;
+        return city1.Population > city2.Population;
     }
 
     public override bool Equals(object obj)
     {
-        if (obj is Worker otherWorker)
+        if (obj is City otherCity)
         {
-            return this.Salary == otherWorker.Salary;
+            return this.Population == otherCity.Population;
         }
         return false;
     }
 
     public override int GetHashCode()
     {
-        return Salary.GetHashCode();
+        return Population.GetHashCode();
     }
 }
+
 class Program
 {
     static void Main(string[] args)
     {
-        Worker worker = new Worker();
-        Console.WriteLine("Enter surname and name:");
-        worker.SetSurnameName(Console.ReadLine());
-        Console.WriteLine("Enter birth date:");
-        worker.SetBirthDate(Console.ReadLine());
-        Console.WriteLine("Enter contact number:");
-        worker.SetContactNumber(Convert.ToInt32(Console.ReadLine()));
-        Console.WriteLine("Enter email:");
-        worker.SetEmail(Console.ReadLine());
-        Console.WriteLine("Enter position:");
-        worker.SetPosition(Console.ReadLine());
-        Console.WriteLine("Enter description:");
-        worker.SetDescription(Convert.ToInt32(Console.ReadLine()));
-        Console.WriteLine("Enter salary:");
-        worker.Salary = Convert.ToDecimal(Console.ReadLine());
-        
-        Console.WriteLine($"Surname and Name: {worker.GetSurnameName()}");
-        Console.WriteLine($"Birth Date: {worker.GetBirthDate()}");
-        Console.WriteLine($"Contact Number: {worker.GetContactNumber()}");
-        Console.WriteLine($"Email: {worker.GetEmail()}");
-        Console.WriteLine($"Position: {worker.GetPosition()}");
-        Console.WriteLine($"Description: {worker.GetDescription()}");
-        Console.WriteLine($"Salary: {worker.Salary}");
+        City city1 = new City();
+        city1.SetName("New York");
+        city1.SetCountry("USA");
+        city1.SetPhoneCode(212);
+        city1.SetNameArea("Manhattan");
+        city1.Population = 8000000;
+
+        City city2 = new City();
+        city2.SetName("Los Angeles");
+        city2.SetCountry("USA");
+        city2.SetPhoneCode(213);
+        city2.SetNameArea("Downtown");
+        city2.Population = 4000000;
+
+        Console.WriteLine($"{city1.GetName()} in {city1.GetCountry()} has a population of {city1.Population}");
+        Console.WriteLine($"{city2.GetName()} in {city2.GetCountry()} has a population of {city2.Population}");
+
+        if (city1 > city2)
+            Console.WriteLine($"{city1.GetName()} has a larger population than {city2.GetName()}");
+        else
+            Console.WriteLine($"{city2.GetName()} has a larger population than {city1.GetName()}");
+
+        city1 += 100000; 
+        Console.WriteLine($"After increase, {city1.GetName()} has a population of {city1.Population}");
     }
 }
